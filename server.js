@@ -14,7 +14,11 @@ const db = new sqlite3.Database("./ecommerce.db", (err) => {
     }
   });
   app.get("/api/products", (req, res) => {
-    const sql = "SELECT * FROM products";
+    const sql = `
+    SELECT products.*, departments.name AS department_name
+    FROM products
+    JOIN departments ON products.department_id = departments.id
+  `;
     db.all(sql, [], (err, rows) => {
       if (err) {
         res.status(500).json({ error: "Database error" });
@@ -25,7 +29,12 @@ const db = new sqlite3.Database("./ecommerce.db", (err) => {
   });
   app.get("/api/products/:id", (req, res) => {
     const { id } = req.params;
-    const sql = "SELECT * FROM products WHERE id = ?";
+    const sql = `
+  SELECT products.*, departments.name AS department_name
+  FROM products
+  JOIN departments ON products.department_id = departments.id
+  WHERE products.id = ?
+`;
     db.get(sql, [id], (err, row) => {
       if (err) {
         res.status(500).json({ error: "Database error" });

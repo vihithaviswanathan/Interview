@@ -17,7 +17,7 @@
 
     document.getElementById("dept-title").innerText = `🛍️ ${deptName} Products`;
 
-    fetch(`http://localhost:3000/api/departments/${deptId}/products`)
+    fetch(`https://interview-nmrv.onrender.com/api/departments/${deptId}/products`)
       .then(res => {
         if (!res.ok) throw new Error("No products found");
         return res.json();

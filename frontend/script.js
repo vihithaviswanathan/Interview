@@ -1,5 +1,5 @@
 // script.js
-fetch("http://localhost:3000/api/products")
+fetch("https://interview-nmrv.onrender.com")
   .then(response => response.json())
   .then(data => {
     const container = document.getElementById("product-list");

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Product Details</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🔍 Product Details</h1>
+  <div id="product-detail">Loading...</div>
+
+  <script src="script.js">
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    fetch(`http://localhost:3000/api/products/${id}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Product not found");
+        return res.json();
+      })
+      .then(product => {
+        document.getElementById("product-detail").innerHTML = `
+          <h2>${product.name}</h2>
+          <p>💰 Price: ₹${product.retail_price}</p>
+          <p>📦 Category: ${product.category}</p>
+          <p>🏷️ Brand: ${product.brand}</p>
+          <p>🏬 Department: ${product.department}</p>
+          <p>🔑 SKU: ${product.sku}</p>
+          <button onclick="window.history.back()">🔙 Back</button>
+        `;
+      })
+      .catch(() => {
+        document.getElementById("product-detail").innerHTML = "<p>❌ Product not found.</p>";
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!-- department.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Department Products</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1 id="dept-title">Department</h1>
+  <a href="departments.html">← Back to Departments</a>
+  <div id="product-list"></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const deptId = params.get("id");
+    const deptName = params.get("name");
+
+    document.getElementById("dept-title").innerText = `🛍️ ${deptName} Products`;
+
+    fetch(`http://localhost:3000/api/departments/${deptId}/products`)
+      .then(res => {
+        if (!res.ok) throw new Error("No products found");
+        return res.json();
+      })
+      .then(data => {
+        const container = document.getElementById("product-list");
+        if (data.length === 0) {
+          container.innerHTML = "<p>No products found in this department.</p>";
+          return;
+        }
+        data.forEach(product => {
+          const card = document.createElement("div");
+          card.className = "product-card";
+          card.innerHTML = `
+            <h3>${product.name}</h3>
+            <p>₹ ${product.retail_price}</p>
+            <a href="product.html?id=${product.id}">View Details</a>
+          `;
+          container.appendChild(card);
+        });
+      })
+      .catch(() => {
+        document.getElementById("product-list").innerHTML = "<p>❌ Failed to load products.</p>";
+      });
+  </script>
+</body>
+</html>

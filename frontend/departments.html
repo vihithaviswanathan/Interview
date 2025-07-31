@@ -1,0 +1,30 @@
+<!-- departments.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Departments</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🏬 Departments</h1>
+  <div id="department-list"></div>
+
+  <script>
+    fetch("http://localhost:3000/api/departments")
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("department-list");
+        data.forEach(dept => {
+          const link = document.createElement("a");
+          link.href = `department.html?id=${dept.id}&name=${encodeURIComponent(dept.name)}`;
+          link.innerText = `${dept.name} (${dept.product_count})`;
+          link.style.display = "block";
+          container.appendChild(link);
+        });
+      })
+      .catch(() => {
+        document.getElementById("department-list").innerHTML = "❌ Failed to load departments.";
+      });
+  </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 // script.js
-fetch("http://127.0.0.1:3000/api/products")
+fetch("http://localhost:3000/api/products")
   .then(response => response.json())
   .then(data => {
     const container = document.getElementById("product-list");
